@@ -1,0 +1,54 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<div class="p-5 mb-4 bg-light rounded-3 shadow-sm text-center">
+    <div class="container py-5">
+        <h1 class="display-5 fw-bold">BIZTRIP</h1>
+        <p class="lead">Majte svoje služobné cesty prehľadne pod kontrolou.</p>
+        <a href="{{ url_for('create_trip') }}" class="btn btn-primary btn-lg">+ Nová cesta</a>
+    </div>
+</div>
+
+<h3 class="mt-4">Kalendár ciest</h3>
+<div class="card p-3 mb-4 shadow-sm">
+    <div id="calendar"></div>
+</div>
+
+<h3 class="mt-4">Zoznam ciest</h3>
+<div class="list-group shadow-sm">
+    {% for trip in trips %}
+        {% set stav = trip.stav() %}
+        {% if stav == "Vytvorená" %}
+            {% set badge = "primary" %}
+        {% elif stav == "Rozpracovaná" %}
+            {% set badge = "warning" %}
+        {% elif stav == "Prebiehajúca" %}
+            {% set badge = "success" %}
+        {% elif stav == "Ukončená" %}
+            {% set badge = "secondary" %}
+        {% endif %}
+        <a href="{{ url_for('trip_detail', trip_id=trip.id) }}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+            <div>
+                <strong>{{ trip.meno }} {{ trip.priezvisko }}</strong> | {{ trip.odkial }} → {{ trip.kam }} | {{ trip.od_datum }} - {{ trip.do_datum }}
+            </div>
+            <span class="badge bg-{{ badge }}">{{ stav }}</span>
+        </a>
+    {% else %}
+        <div class="list-group-item">Zatiaľ neboli pridané žiadne cesty.</div>
+    {% endfor %}
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.13/index.global.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    var calendarEl = document.getElementById('calendar');
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+        initialView: 'dayGridMonth',
+        locale: 'sk',
+        events: {{ events | tojson }}
+    });
+    calendar.render();
+});
+</script>
+
+{% endblock %}

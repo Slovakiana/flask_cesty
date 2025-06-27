@@ -1,0 +1,11 @@
+{% extends "layout.html" %}
+{% block content %}
+<h2>Registrácia</h2>
+<form method="POST">
+    {{ form.hidden_tag() }}
+    <p>{{ form.email.label }}<br>{{ form.email(size=32) }}</p>
+    <p>{{ form.password.label }}<br>{{ form.password(size=32) }}</p>
+    <p>{{ form.confirm_password.label }}<br>{{ form.confirm_password(size=32) }}</p>
+    <p>{{ form.submit(class="btn btn-primary") }}</p>
+</form>
+{% endblock %}

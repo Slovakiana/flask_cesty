@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Detail cesty: {{ trip.meno }} {{ trip.priezvisko }}</h2>
+
+<p>Progress: {{ progress }}%</p>
+<div class="progress mb-3">
+    <div class="progress-bar" role="progressbar" style="width: {{ progress }}%;" aria-valuenow="{{ progress }}" aria-valuemin="0" aria-valuemax="100"></div>
+</div>
+
+<form method="POST">
+    {{ form.hidden_tag() }}
+
+    <div class="form-check">
+        {{ form.fiori_zadane(class="form-check-input") }}
+        {{ form.fiori_zadane.label(class="form-check-label") }}
+    </div>
+    <div class="form-check">
+        {{ form.ziadanka_fiori(class="form-check-input") }}
+        {{ form.ziadanka_fiori.label(class="form-check-label") }}
+    </div>
+    <div class="form-check">
+        {{ form.ubytovanie_objednane(class="form-check-input") }}
+        {{ form.ubytovanie_objednane.label(class="form-check-label") }}
+    </div>
+    <div class="form-check">
+        {{ form.dochadzka(class="form-check-input") }}
+        {{ form.dochadzka.label(class="form-check-label") }}
+    </div>
+    <div class="form-check">
+        {{ form.tabulka_G(class="form-check-input") }}
+        {{ form.tabulka_G.label(class="form-check-label") }}
+    </div>
+    <div class="form-check">
+        {{ form.vyuctovanie_fiori(class="form-check-input") }}
+        {{ form.vyuctovanie_fiori.label(class="form-check-label") }}
+    </div>
+    <div class="form-check">
+        {{ form.sprava_z_cesty(class="form-check-input") }}
+        {{ form.sprava_z_cesty.label(class="form-check-label") }}
+    </div>
+
+    <button type="submit" class="btn btn-primary mt-3">{{ form.submit.label.text }}</button>
+</form>
+
+<a href="{{ url_for('index') }}" class="btn btn-secondary mt-2">Späť na prehľad</a>
+{% endblock %}

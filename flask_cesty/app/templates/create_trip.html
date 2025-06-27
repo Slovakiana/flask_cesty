@@ -1,0 +1,87 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="card p-4 shadow-sm">
+    <h2 class="mb-4">Vytvoriť novú služobnú cestu</h2>
+    <form method="POST" id="tripForm">
+        {{ form.hidden_tag() }}
+
+        <div class="mb-3">
+            {{ form.meno.label(class="form-label") }}
+            {{ form.meno(class="form-control", placeholder="Zadaj meno") }}
+        </div>
+
+        <div class="mb-3">
+            {{ form.priezvisko.label(class="form-label") }}
+            {{ form.priezvisko(class="form-control", placeholder="Zadaj priezvisko") }}
+        </div>
+
+        <div class="mb-3">
+            {{ form.spolucestujuci.label(class="form-label") }}
+            {{ form.spolucestujuci(class="form-control", placeholder="Zadaj spolucestujúceho") }}
+        </div>
+
+        <div class="mb-3">
+            {{ form.odkial.label(class="form-label") }}
+            <input list="destinacie_od" name="odkial" class="form-control" placeholder="Odkiaľ" required>
+            <datalist id="destinacie_od">
+                {% for dest in destinacie_od %}
+                    <option value="{{ dest }}"></option>
+                {% endfor %}
+            </datalist>
+        </div>
+
+        <div class="mb-3">
+            {{ form.kam.label(class="form-label") }}
+            <input list="destinacie_kam" name="kam" class="form-control" placeholder="Kam" required>
+            <datalist id="destinacie_kam">
+                {% for dest in destinacie_kam %}
+                    <option value="{{ dest }}"></option>
+                {% endfor %}
+            </datalist>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                {{ form.od_datum.label(class="form-label") }}
+                {{ form.od_datum(class="form-control") }}
+            </div>
+            <div class="col-md-6 mb-3">
+                {{ form.do_datum.label(class="form-label") }}
+                {{ form.do_datum(class="form-control") }}
+            </div>
+        </div>
+
+        <div class="mb-3">
+            {{ form.miesto.label(class="form-label") }}
+            {{ form.miesto(class="form-control", placeholder="Miesto cesty") }}
+        </div>
+
+        <div class="mb-3">
+            {{ form.poznamka.label(class="form-label") }}
+            {{ form.poznamka(class="form-control", id="editor") }}
+        </div>
+
+        <button type="submit" class="btn btn-primary" id="submitBtn">
+            <span id="btnText">Vytvoriť cestu</span>
+            <span id="spinner" class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+        </button>
+    </form>
+</div>
+
+<!-- CKEditor -->
+<script src="https://cdn.ckeditor.com/4.21.0/standard/ckeditor.js"></script>
+<script>
+    CKEDITOR.replace('editor');
+
+    const tripForm = document.getElementById('tripForm');
+    const submitBtn = document.getElementById('submitBtn');
+    const btnText = document.getElementById('btnText');
+    const spinner = document.getElementById('spinner');
+
+    tripForm.addEventListener('submit', function() {
+        submitBtn.disabled = true;
+        btnText.textContent = 'Odosielam...';
+        spinner.classList.remove('d-none');
+    });
+</script>
+{% endblock %}
