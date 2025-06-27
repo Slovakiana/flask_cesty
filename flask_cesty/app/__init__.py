@@ -9,6 +9,8 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///../instance/app.db'
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 
+web: gunicorn app.app:app
+
 login_manager = LoginManager(app)
 login_manager.login_view = 'login'
 
